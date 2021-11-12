@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-11-12T11:41:38.720Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36" etag="Yk1JKZ5b4rBmMBUX6k9M" version="15.7.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-11-12T11:57:32.519Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36" etag="h68GQWtKgRbrRtv2Z-um" version="15.7.3" type="github">
   <diagram id="R2lEEEUBdFMjLlhIrx00" name="Page-1">
     <mxGraphModel dx="1312" dy="1845" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
       <root>
@@ -44,7 +44,7 @@
             <mxRectangle width="30" height="110" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="C-vyLk0tnHw3VtMMgP7b-8" value="author_id int NOT NULL&#xa;recipe_id int NOT NULL&#xa;rating int NOT NULL&#xa;review char(1000)&#xa;date_submitted datetime&#xa;date_modified datetime" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;verticalAlign=top;" parent="C-vyLk0tnHw3VtMMgP7b-6" vertex="1">
+        <mxCell id="C-vyLk0tnHw3VtMMgP7b-8" value="author_id int NOT NULL&#xa;recipe_id int NOT NULL&#xa;rating int NOT NULL&#xa;review varchar&#xa;date_submitted datetime&#xa;date_modified datetime" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;verticalAlign=top;" parent="C-vyLk0tnHw3VtMMgP7b-6" vertex="1">
           <mxGeometry x="30" width="220" height="110" as="geometry">
             <mxRectangle width="220" height="110" as="alternateBounds" />
           </mxGeometry>
@@ -86,7 +86,7 @@
             <mxRectangle width="30" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="C-vyLk0tnHw3VtMMgP7b-19" value="name char(100) NOT NULL" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;" parent="C-vyLk0tnHw3VtMMgP7b-17" vertex="1">
+        <mxCell id="C-vyLk0tnHw3VtMMgP7b-19" value="name varchar(100) NOT NULL" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;" parent="C-vyLk0tnHw3VtMMgP7b-17" vertex="1">
           <mxGeometry x="30" width="220" height="30" as="geometry">
             <mxRectangle width="220" height="30" as="alternateBounds" />
           </mxGeometry>
@@ -114,7 +114,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="C-vyLk0tnHw3VtMMgP7b-23" value="Recipe" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;" parent="1" vertex="1">
-          <mxGeometry x="120" y="120" width="250" height="410" as="geometry">
+          <mxGeometry x="120" y="120" width="250" height="360" as="geometry">
             <mxRectangle x="120" y="120" width="70" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -132,16 +132,16 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="C-vyLk0tnHw3VtMMgP7b-27" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;pointerEvents=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" parent="C-vyLk0tnHw3VtMMgP7b-23" vertex="1">
-          <mxGeometry y="60" width="250" height="320" as="geometry" />
+          <mxGeometry y="60" width="250" height="290" as="geometry" />
         </mxCell>
         <mxCell id="C-vyLk0tnHw3VtMMgP7b-28" value="&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;FK1" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;verticalAlign=top;" parent="C-vyLk0tnHw3VtMMgP7b-27" vertex="1">
-          <mxGeometry width="30" height="320" as="geometry">
-            <mxRectangle width="30" height="320" as="alternateBounds" />
+          <mxGeometry width="30" height="290" as="geometry">
+            <mxRectangle width="30" height="290" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="C-vyLk0tnHw3VtMMgP7b-29" value="name char(250) NOT NULL&#xa;author_id int NOT NULL&#xa;cook_time timedelta?&#xa;prep_time&#xa;total_time&#xa;date_published&#xa;description char(1000)&#xa;category_id int&#xa;calories float&#xa;fat_content float&#xa;saturated_fat_content float&#xa;cholesterol_content float&#xa;sodium_content float&#xa;carbohydrate_content float&#xa;fiber_content float&#xa;sugar_content float&#xa;protein_content float&#xa;recipe_servings int&#xa;recipe_yield char(50)&#xa;recipe_instructions char(1000)&#xa;&#xa;" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;" parent="C-vyLk0tnHw3VtMMgP7b-27" vertex="1">
-          <mxGeometry x="30" width="220" height="320" as="geometry">
-            <mxRectangle width="220" height="320" as="alternateBounds" />
+        <mxCell id="C-vyLk0tnHw3VtMMgP7b-29" value="name varchar(250) NOT NULL&#xa;author_id int NOT NULL&#xa;cook_time time&#xa;prep_time time&#xa;total_time time&#xa;date_published datetime&#xa;description varchar&#xa;category_id int&#xa;calories float&#xa;fat_content float&#xa;saturated_fat_content float&#xa;cholesterol_content float&#xa;sodium_content float&#xa;carbohydrate_content float&#xa;fiber_content float&#xa;sugar_content float&#xa;protein_content float&#xa;recipe_servings int&#xa;recipe_yield varchar(50)&#xa;recipe_instructions varchar&#xa;" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;verticalAlign=top;" parent="C-vyLk0tnHw3VtMMgP7b-27" vertex="1">
+          <mxGeometry x="30" width="220" height="290" as="geometry">
+            <mxRectangle width="220" height="290" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
         <mxCell id="lVcsxuh1J0Njn9O1Py8Z-1" value="Keyword" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;" parent="1" vertex="1">
@@ -197,7 +197,7 @@
             <mxRectangle width="30" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="lVcsxuh1J0Njn9O1Py8Z-15" value="category_name char(50) NOT NULL" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;" parent="lVcsxuh1J0Njn9O1Py8Z-13" vertex="1">
+        <mxCell id="lVcsxuh1J0Njn9O1Py8Z-15" value="category_name varchar(50) NOT NULL" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;" parent="lVcsxuh1J0Njn9O1Py8Z-13" vertex="1">
           <mxGeometry x="30" width="220" height="30" as="geometry">
             <mxRectangle width="220" height="30" as="alternateBounds" />
           </mxGeometry>
@@ -226,7 +226,7 @@
             <mxRectangle width="30" height="40" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="lVcsxuh1J0Njn9O1Py8Z-26" value="recipe_id int NOT NULL&#xa;image_url char(250) NOT NULL" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;verticalAlign=top;" parent="lVcsxuh1J0Njn9O1Py8Z-24" vertex="1">
+        <mxCell id="lVcsxuh1J0Njn9O1Py8Z-26" value="recipe_id int NOT NULL&#xa;image_url varchar(250) NOT NULL" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;verticalAlign=top;" parent="lVcsxuh1J0Njn9O1Py8Z-24" vertex="1">
           <mxGeometry x="30" width="220" height="40" as="geometry">
             <mxRectangle width="220" height="40" as="alternateBounds" />
           </mxGeometry>
@@ -257,7 +257,7 @@
             <mxRectangle width="30" height="40" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="lVcsxuh1J0Njn9O1Py8Z-45" value="name char(250) NOT NULL&#xa;" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;" parent="lVcsxuh1J0Njn9O1Py8Z-43" vertex="1">
+        <mxCell id="lVcsxuh1J0Njn9O1Py8Z-45" value="name varchar(250) NOT NULL&#xa;" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;" parent="lVcsxuh1J0Njn9O1Py8Z-43" vertex="1">
           <mxGeometry x="30" width="220" height="40" as="geometry">
             <mxRectangle width="220" height="40" as="alternateBounds" />
           </mxGeometry>
