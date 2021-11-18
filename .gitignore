@@ -1,0 +1,13 @@
+source/dwh.cfg
+.vscode
+
+# Ipython caches
+.ipynb_checkpoints/
+*.ipynb
+
+# Byte-Compiled / optimized
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
