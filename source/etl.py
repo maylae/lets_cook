@@ -15,16 +15,9 @@ def drop_tables(cur, conn):
         cur.execute(query)
         conn.commit()
 
-def insert_tables(cur, conn):
-    print("Load data into star schema")
-    for query in insert_table_queries:
-        cur.execute(query)
-        conn.commit()
-
-
 def main():
     config = configparser.ConfigParser()
-    config.read('dwh.cfg')
+    config.read(r'C:\Users\A105938856\OneDrive - Deutsche Telekom AG\Schulungen\Udacity\lets_cook\source\dwh.cfg')
 
     # setup connection to Redshift cluster
     connector = ClusterConnector(config)

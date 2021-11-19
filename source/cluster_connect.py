@@ -42,6 +42,9 @@ class ClusterConnector():
                                aws_access_key_id=self.KEY,
                                aws_secret_access_key=self.SECRET
                                )
+        self.roleArn = None
+        self.create_iam_role()
+        self.create_cluster()
 
     def create_iam_role(self):
         """ Create a new IAM role, that impersonates Redshift and """
@@ -98,10 +101,14 @@ class ClusterConnector():
             Returns:
                 - success (boolean): Returns True if cluster is available, else False.
         """
-        try:
+        #try:
+        props = dict()
+        while props.get('ClusterStatus') != "available":
             props = self.get_redshift_props()
+            print(props)
             if props['ClusterStatus'] == "available":
                 self.DWH_ENDPOINT = props['Endpoint']['Address']
+                print(self.DWH_ENDPOINT)
                 self.DWH_ROLE_ARN = props['IamRoles'][0]['IamRoleArn']
                 self.cluster_props = props
                 print("DWH_ENDPOINT :: ", self.DWH_ENDPOINT)
@@ -109,8 +116,9 @@ class ClusterConnector():
                 return True
             else:
                 return False
-        except:
-            return False
+        #except:
+        #    print("Error")
+        #    return False
         
     def open_port(self):
         """ Open an incoming TCP port to access cluster endpoint """
