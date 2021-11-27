@@ -5,13 +5,11 @@ import sys
 import psycopg2
 from psycopg2.extras import execute_values
 import configparser
-from datetime import timedelta
 from data_parser import DataParser
 from pathlib import Path
 from zipfile import ZipFile
-from sql_queries_copy import *
+from sql_queries import *
 from cluster_connect import ClusterConnector
-import sqlite3
 
 def unzip_file(file, target_filepath):
     """Extracts all files from a zip file into a target file path
@@ -32,16 +30,27 @@ def unzip_file(file, target_filepath):
         return zip.namelist()
 
 class ETLProcess:
-    def __init__(self, config_file, recipes_file, reviews_file, db_name):
+    def __init__(self, config_file, recipes_file, reviews_file):
         self.config = configparser.ConfigParser()
         self.config.read(config_file)
         
         self.recipes_file = recipes_file
         self.reviews_file = reviews_file
-        self.db_name = db_name
 
     def connect_to_db(self):
-        conn = sqlite3.connect(self.db_name)
+
+        # setup connection to Redshift cluster
+        connector = ClusterConnector(self.config)
+        connector.setup_resources()
+        connector.get_cluster_endpoint_arn()
+
+        conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(
+                connector.DWH_ENDPOINT, 
+                self.config['DWH']['DWH_DB'], 
+                self.config['DWH']['DWH_DB_USER'],
+                self.config['DWH']['DWH_DB_PASSWORD'],
+                self.config['DWH']['DWH_PORT']))
+
         cur = conn.cursor()
         return conn, cur
 
@@ -54,12 +63,10 @@ class ETLProcess:
             data (pd.Dataframe): Data to insert into the table
         """
         try:
-            args_str = ",".join(["(" + ', '.join(['"'+str(y)+'"' for y in x]) + ")" for x in data.values])
-            #print("args_str", args_str)"'
+            args_str = ",".join(["(" + ', '.join(["'"+str(y)+"'" for y in x]) + ")" for x in data.values])
             formatted_query = query.replace("%s", args_str)
             cur.execute(formatted_query)
             conn.commit()
-            #execute_values(cur, query, data.values)
         except Exception as e:
             print(e)
 
@@ -119,6 +126,7 @@ class ETLProcess:
         df = self.recipes[['RecipeId', 'Name', 'AuthorId','CookTime','PrepTime','TotalTime', 'DatePublished', 'Description', 'CategoryId', 
             'Calories', 'FatContent', 'SaturatedFatContent', 'CholesterolContent', 'SodiumContent', 'CarbohydrateContent', 'FiberContent', 
             'SugarContent', 'ProteinContent', 'RecipeServings', 'RecipeYield','RecipeInstructions']]
+        df[['AuthorId','CategoryId']] = df[['AuthorId','CategoryId']].astype(pd.Int64Dtype())
         print("Writing recipes into database.")
         self.execute_query(conn, cur, recipes_table_insert, df)
 
@@ -171,20 +179,6 @@ class ETLProcess:
         
 
     def run(self):
-        # # setup connection to Redshift cluster
-        # connector = ClusterConnector(config)
-        # connector.setup_resources()
-        # connector.get_cluster_endpoint_arn()
-
-        # connect to Redshift cluster
-        # conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(
-        #         connector.DWH_ENDPOINT, 
-        #         config['DWH']['DWH_DB'], 
-        #         config['DWH']['DWH_DB_USER'],
-        #         config['DWH']['DWH_DB_PASSWORD'],
-        #         config['DWH']['DWH_PORT']))
-
-        
         # Prepare data
         parser = DataParser()
         self.reviews = parser.prepare_reviews(self.reviews_file)
@@ -201,9 +195,8 @@ class ETLProcess:
             
 
 if __name__ == "__main__":
-    config_file = os.path.join(sys.path[0], 'dwh.cfg')
+    config_file = Path(r'.\config\dwh.cfg')
     data_filepath = Path(r'.\data')
-    db_name = 'lets_cook.db'
     small_set = False
 
     if small_set:        
@@ -215,5 +208,5 @@ if __name__ == "__main__":
         
         recipes_filename = unzip_file(recipes_zip_file, data_filepath)[0]
         recipes_file = data_filepath / recipes_filename
-    etl = ETLProcess(config_file, recipes_file, reviews_file, db_name)
+    etl = ETLProcess(config_file, recipes_file, reviews_file)
     etl.run()

@@ -14,13 +14,13 @@ reviews_table_drop = "DROP TABLE IF EXISTS reviews CASCADE;"
 recipes_table_create = ("""
 CREATE TABLE IF NOT EXISTS recipes (
             recipe_id int PRIMARY KEY, 
-            name varchar, 
+            name varchar(500), 
             author_id int,
-            cook_time time,
-            prep_time time,
-            total_time time,
+            cook_time float,
+            prep_time float,
+            total_time float,
             date_published datetime,
-            description varchar,
+            description varchar(max),
             category_id int,
             calories float,
             fat_content float,
@@ -31,9 +31,9 @@ CREATE TABLE IF NOT EXISTS recipes (
             fiber_content float,
             sugar_content float,
             protein_content float,
-            recipe_servings int,
+            recipe_servings varchar(50),
             recipe_yield varchar(50),
-            recipe_instructions varchar
+            recipe_instructions varchar(max)
             );
 """)
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS recipe_images (
 ingredients_table_create = ("""
 CREATE TABLE IF NOT EXISTS ingredients (
             ingredient_id int PRIMARY KEY, 
-            name varchar(250))
+            name varchar(500))
 """)
 
 recipe_ingredients_table_create = ("""
@@ -84,7 +84,7 @@ reviews_table_create = ("""
             author_id int NOT NULL,
             recipe_id int NOT NULL,
             rating int NOT NULL,
-            review varchar,
+            review varchar(max),
             date_submitted datetime,
             date_modified datetime);
 """)

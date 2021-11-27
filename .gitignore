@@ -1,4 +1,5 @@
 source/dwh.cfg
+source/dwh_test.cfg
 .vscode
 
 # Ipython caches

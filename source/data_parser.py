@@ -14,7 +14,7 @@ class DataParser():
         # Clean other columns
         reviews['AuthorId'] = reviews['AuthorId'].astype(int)
         reviews['AuthorName'] = reviews['AuthorName'].str.strip()
-        reviews['Review'] = reviews['Review'].str.replace('"',"'")
+        reviews['Review'] = reviews['Review'].str.replace("'",'"')
 
         return reviews
 
@@ -39,7 +39,7 @@ class DataParser():
         recipes['AuthorName'] = recipes['AuthorName'].str.strip()
         recipes['RecipeInstructions'] = recipes['RecipeInstructions'].str.join(" ")
         for col in ['Description', 'RecipeIngredientParts', 'RecipeInstructions', 'RecipeYield', 'Name']:
-            recipes[col] = recipes[col].astype(str).str.replace('"',"'").replace('"',"'")
+            recipes[col] = recipes[col].astype(str).str.replace("'", '"')
 
         return recipes
         
