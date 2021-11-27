@@ -1,10 +1,11 @@
 import boto3
 from botocore.exceptions import ClientError
 import json
+import time
 import pandas as pd
 
 class ClusterConnector():
-    """ Class for setting up a redshift cluster with all necessary resources and connecting to it """
+    """ Set up a redshift cluster with all necessary resources and connect to it """
     
     def __init__(self, config):
         self.KEY                    = config.get('AWS','KEY')
@@ -21,16 +22,9 @@ class ClusterConnector():
         self.DWH_PORT               = config.get("DWH","DWH_PORT")
 
         self.DWH_IAM_ROLE_NAME      = config.get("DWH", "DWH_IAM_ROLE_NAME")
-        
-        self.setup_resources()    
     
     def setup_resources(self):
         """ Create the necessary resources and clients for working with Redshift """
-        self.ec2 = boto3.resource('ec2',
-                               region_name="us-west-2",
-                               aws_access_key_id=self.KEY,
-                               aws_secret_access_key=self.SECRET
-                            )
 
         self.iam = boto3.client('iam',aws_access_key_id=self.KEY,
                              aws_secret_access_key=self.SECRET,
@@ -66,7 +60,7 @@ class ClusterConnector():
 
         print("1.2 Get the IAM role ARN")
         self.roleArn = self.iam.get_role(RoleName=self.DWH_IAM_ROLE_NAME)['Role']['Arn']
-        print(self.roleArn)
+        print(f'Role ARN: {self.roleArn}')
         
     def create_cluster(self):
         """ Create the redshift cluster with the created IAM role """
@@ -87,9 +81,12 @@ class ClusterConnector():
                 MasterUserPassword=self.DWH_DB_PASSWORD,
                 
             )
-        except Exception as e:
-            print(e)
-            
+        except ClientError as e:
+            if e.response['Error']['Code'] == 'ClusterAlreadyExists':
+                print("Cluster already exists")
+            else:
+                print("Unexpected error: %s" % e)
+                raise ConnectionRefusedError
             
     def get_redshift_props(self):
         """ Get redshift cluster props """
@@ -97,49 +94,37 @@ class ClusterConnector():
         return props
     
     def get_cluster_endpoint_arn(self):
-        """ Get cluster endpoint and IAMRoleArn. 
-            Returns:
-                - success (boolean): Returns True if cluster is available, else False.
+        """ Get cluster endpoint and IAMRoleArn. Wait at max. 2 minutes until the cluster is available.
+        Returns:
+            boolean: Returns True if cluster is available, else False.
         """
-        #try:
+        print("Get cluster endpoint", end="")
         props = dict()
-        while props.get('ClusterStatus') != "available":
+        num_tries = 0
+        while props.get('ClusterStatus') != "available" or num_tries >= 60:
             props = self.get_redshift_props()
-            print(props)
-            if props['ClusterStatus'] == "available":
-                self.DWH_ENDPOINT = props['Endpoint']['Address']
-                print(self.DWH_ENDPOINT)
-                self.DWH_ROLE_ARN = props['IamRoles'][0]['IamRoleArn']
-                self.cluster_props = props
-                print("DWH_ENDPOINT :: ", self.DWH_ENDPOINT)
-                print("DWH_ROLE_ARN :: ", self.DWH_ROLE_ARN)
-                return True
-            else:
-                return False
-        #except:
-        #    print("Error")
-        #    return False
-        
-    def open_port(self):
-        """ Open an incoming TCP port to access cluster endpoint """
-        try:
-            vpc = self.ec2.Vpc(id=self.cluster_props['VpcId'])
-            defaultSg = list(vpc.security_groups.all())[0]
-            print(defaultSg)
-            defaultSg.authorize_ingress(
-                GroupName=defaultSg.group_name,
-                CidrIp='0.0.0.0/0',
-                IpProtocol='TCP',
-                FromPort=int(self.DWH_PORT),
-                ToPort=int(self.DWH_PORT)
-            )
-        except Exception as e:
-            print(e)
+            time.sleep(2)
+            print('.', end ="")
+            num_tries += 1
+        if num_tries < 60:
+            print(".")
+            self.DWH_ENDPOINT = props['Endpoint']['Address']
+            self.DWH_ROLE_ARN = self.roleArn
+            self.cluster_props = props
+            print("DWH_ENDPOINT :: ", self.DWH_ENDPOINT)
+            print("DWH_ROLE_ARN :: ", self.DWH_ROLE_ARN)
+            return True
+        else:
+            return False
             
     def delete_cluster(self):
         """ Delete the created Redshift cluster """
+        print("Deleting cluster")
         self.redshift.delete_cluster( ClusterIdentifier=self.DWH_CLUSTER_IDENTIFIER,  SkipFinalClusterSnapshot=True)
+        print("Cluster deleted.")
         
     def delete_iam_role(self):
+        print("Deleting IAM role.")
         self.iam.delete_role(RoleName=self.DWH_IAM_ROLE_NAME)
+        print("IAM role deleted.")
 

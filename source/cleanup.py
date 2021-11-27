@@ -1,11 +1,15 @@
 import configparser
 import psycopg2
+import os
+import sys
+
 from cluster_connect import ClusterConnector
 
 
 def main():
     config = configparser.ConfigParser()
-    config.read('dwh.cfg')
+    config_file = os.path.join(sys.path[0], 'dwh.cfg')
+    config.read(config_file)
 
     # setup connection to Redshift cluster
     connector = ClusterConnector(config)

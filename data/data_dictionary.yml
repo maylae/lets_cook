@@ -1,0 +1,57 @@
+[recipes]
+  recipe_id: (int) unique id of a recipe 
+  name: (str) Name of the recipe
+  author_id: (int) unique id of the recipe author
+  cook_time: (float) Cook time in minutes
+  prep_time: (float) Preparation time in minutes
+  total_time: (float) Sum of cook and preparation time in minutes
+  date_published: (datetime) Date and time when the recipe was published 
+  description: (str) Description of the recipe
+  category_id: (int) unique id of the recipe category
+  calories: (float) Calories in kcal
+  fat_content: (float) Fat content in gram
+  saturated_fat_content: (float) Saturated fat content in gram 
+  cholesterol_content: (float) Cholesterol content in mg
+  sodium_content: (float) Sodium content in mg
+  carbohydrate_content: (float) Carbohydrate content in gram
+  fiber_content: (float) Fiber content in gram
+  sugar_content: (float) Sugar content in gram
+  protein_content: (float) Protein content in gram
+  recipe_servings: (int) Number of servings that result from preparing the recipe
+  recipe_yield: (str) Number of items that result from preparing the recipe
+  recipe_instructions: (str) Steps to prepare the recipe
+    
+[recipe_images] 
+  recipe_id: (int, required) unique id of the image
+  image_url: (str) URL to the image
+
+[ingredients]
+  ingredient_id: (int) unique id of an ingredient 
+  name: (str)
+
+[recipe_ingredients]
+  recipe_ingredient_id: (int) uniqe id for an ingredient-recipe id
+  ingredient_id: (int, required) unique id of an ingredient
+  recipe_id: (int, required) unique id of a recipe
+  ingredient_quantity: (str) Quantity of the ingredient needed for the recipe
+  
+[categories]
+  category_id: (int) unique id for the category 
+  category_name: (str) recipe category
+
+[keywords]
+  keyword_id: (int) Unique id of the keyword 
+  keyword: (str, required) Keyword for the recipe type
+
+[reviews]
+  review_id: (int) Unique id for the review 
+  author_id: (int, required) Unique id of the author
+  recipe_id: (int, required) Unique id of the recipe
+  rating: (int, required) Rating between 1 (worst) and 5 (best)
+  review: (str) Comment on the recipe
+  date_submitted: (datetime) Date and time when the review was first subitted
+  date_modified: (datetime) Date and time when the review was last modified
+
+[authors]
+  author_id: (int) Unique id for the author 
+  name: (required) User name of the author
