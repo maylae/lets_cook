@@ -142,70 +142,6 @@ foreign_key_query = """
     REFERENCES authors (author_id);
 """
 
-# INSERT RECORDS
-
-# recipes_table_insert = ("""
-# INSERT INTO recipes (recipe_id, name, author_id, cook_time, prep_time, total_time, date_published, description, category_id, calories, fat_content, saturated_fat_content, cholesterol_content, sodium_content, carbohydrate_content, fiber_content, sugar_content, protein_content, recipe_servings, recipe_yield, recipe_instructions)
-# VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-# """)
-
-# recipe_images_table_insert = ("""
-# INSERT INTO recipe_images (recipe_id, image_url)
-# VALUES (%s, %s)
-# """)
-
-# ingredients_table_insert = ("""
-# INSERT INTO ingredients (ingredient_id, name)
-# VALUES (%s, %s)
-# ON CONFLICT (ingredient_id)
-#     DO UPDATE SET 
-#         name = EXCLUDED.name
-# """)
-
-# recipe_ingredients_table_insert = ("""
-# INSERT INTO recipe_ingredients (recipe_id, ingredient_id, ingredient_quantity)
-# VALUES (%s, %s, %s)
-# """)
-
-# categories_table_insert = ("""
-# INSERT INTO categories (category_id, category_name)
-# VALUES (%s, %s)
-# ON CONFLICT (category_id)
-#     DO UPDATE SET 
-#         category_name = EXCLUDED.category_name;
-# """)
-
-# recipe_keywords_table_insert = ("""
-# INSERT INTO recipe_keywords (recipe_id, keyword_id)
-# VALUES (%s, %s)
-# """)
-
-# keywords_table_insert = ("""
-# INSERT INTO keywords (keyword_id, keyword)
-# VALUES (%s, %s)
-# ON CONFLICT (keyword_id)
-#     DO UPDATE SET 
-#         keyword = EXCLUDED.keyword;
-# """)
-
-# reviews_table_insert = ("""
-# INSERT INTO reviews (review_id, author_id, recipe_id, rating, review, date_submitted, date_modified)
-# VALUES (%s, %s, %s, %s, %s, %s, %s)
-# ON CONFLICT (review_id)
-#     DO UPDATE SET 
-#         rating = EXCLUDED.rating,
-#         review = EXCLUDED.review,
-#         date_modified = EXCLUDED.date_modified;
-# """)
-
-# authors_table_insert = ("""
-# INSERT INTO authors (author_id, name)
-# VALUES (%s, %s)
-# ON CONFLICT (author_id)
-#     DO UPDATE SET 
-#         name = EXCLUDED.name
-# """)
-
 recipes_table_insert = ("""
 INSERT INTO recipes (recipe_id, name, author_id, cook_time, prep_time, total_time, date_published, description, category_id, calories, fat_content, saturated_fat_content, cholesterol_content, sodium_content, carbohydrate_content, fiber_content, sugar_content, protein_content, recipe_servings, recipe_yield, recipe_instructions)
 VALUES %s
@@ -220,10 +156,6 @@ ingredients_table_insert = ("""
 INSERT INTO ingredients (ingredient_id, name)
 VALUES %s
 """)
-#ON CONFLICT (ingredient_id)
-#    DO UPDATE SET 
-#        name = EXCLUDED.name
-#""")
 
 recipe_ingredients_table_insert = ("""
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id, ingredient_quantity)
@@ -234,10 +166,6 @@ categories_table_insert = ("""
 INSERT INTO categories (category_id, category_name)
 VALUES %s
 """)
-#ON CONFLICT (category_id)
-#    DO UPDATE SET 
-#        category_name = EXCLUDED.category_name;
-#""")
 
 recipe_keywords_table_insert = ("""
 INSERT INTO recipe_keywords (recipe_id, keyword_id)
@@ -248,31 +176,17 @@ keywords_table_insert = ("""
 INSERT INTO keywords (keyword_id, keyword)
 VALUES %s
 """)
-#ON CONFLICT (keyword_id)
-#    DO UPDATE SET 
-#        keyword = EXCLUDED.keyword;
-#""")
 
 reviews_table_insert = ("""
 INSERT INTO reviews (review_id, author_id, recipe_id, rating, review, date_submitted, date_modified)
 VALUES %s
 """
-#ON CONFLICT (review_id)
- #   DO UPDATE SET 
-#        rating = EXCLUDED.rating,
-#        review = EXCLUDED.review,
-#        date_modified = EXCLUDED.date_modified;
-#"""
 )
 
 authors_table_insert = ("""
 INSERT INTO authors (author_id, name)
 VALUES %s
 """
-# ON CONFLICT (author_id)
-#   DO UPDATE SET 
-#        name = EXCLUDED.name
-#"""
 )
 
 # QUERY LISTS

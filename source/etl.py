@@ -1,9 +1,5 @@
-import numpy as np
 import pandas as pd
-import os
-import sys
 import psycopg2
-from psycopg2.extras import execute_values
 import configparser
 from data_parser import DataParser
 from pathlib import Path
